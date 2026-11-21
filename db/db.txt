@@ -1,0 +1,34 @@
+Banco mapeamento_barragens
+PostgreSQL com a extensão PostGIS
+
+Ordem no pgAdmin ou DBeaver
+1. Conecte ao banco postgres com uma conta com permissão de criação.
+2. Execute CREATE DATABASE mapeamento_barragens; com autocommit.
+3. Abra uma conexão com mapeamento_barragens e execute o arquivo schema.sql inteiro.
+4. Execute SELECT PostGIS_Full_Version(); para verificar a extensão.
+5. Configure .env e execute os importadores. consultas_espaciais.sql é executado
+   pelo modelo via Psycopg, que fornece os parâmetros nomeados.
+
+Tabelas e relacionamentos
+- fontes_dados: id bigint de identidade, nome/endereco_url/versao text,
+  data_coleta timestamptz. Cada lote importado registra a procedência.
+- barragens: id bigint de identidade, codigo_anm text único, nome, município, UF,
+  categoria de risco e dano potencial em text, data_atualizacao date,
+  geometria Point/4326 opcional e fonte_id bigint referenciando fontes_dados.
+- eventos_sismicos: id bigint de identidade, codigo_origem text único,
+  data_hora timestamptz, magnitude e profundidade_km double precision,
+  geometria Point/4326 obrigatória e fonte_id bigint referenciando fontes_dados.
+- zonas_sismogenicas: id bigint de identidade, nome, classificação, descrição,
+  metodologia e referência em text, geometria MultiPolygon/4326 válida e
+  fonte_id bigint referenciando fontes_dados. Nome e referência formam chave única.
+- analises_espaciais: id bigint de identidade, barragem_id bigint referenciando
+  barragens, raio_km e magnitude_minima double precision, período em dois campos
+  date, resultado_json jsonb e data_analise timestamptz. Disponível para
+  arquivamento acadêmico posterior. Consultas públicas GET são somente leitura.
+
+Índices
+- As PK e unicidades criam índices B-tree. Há B-tree nos relacionamentos e filtros
+  de estado/município e data sísmica.
+- GiST em cada geometria para recortes espaciais e GiST de expressão em
+  eventos_sismicos(geometria::geography) para ST_DWithin em metros.
+

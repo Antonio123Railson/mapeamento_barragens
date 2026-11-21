@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block conteudo %}
+<section class="hero">
+  <div>
+    <p class="rotulo">Geoprocessamento acadêmico</p>
+    <h1>Barragens e sismicidade no Brasil</h1>
+    <p class="introducao">Explore a distribuição das barragens de rejeitos e analise a proximidade entre as estruturas e os epicentros registrados.</p>
+    <div class="acoes"><a class="botao" href="/mapa">Explorar mapa</a><a class="botao secundario" href="/analises">Analisar proximidade</a></div>
+  </div>
+  <div class="hero-resumo">
+    <h2>Bases cadastradas</h2>
+    <dl class="metricas" id="resumo">
+      <div><dt>Barragens</dt><dd data-chave="barragens">—</dd></div>
+      <div><dt>Eventos sísmicos</dt><dd data-chave="sismos">—</dd></div>
+      <div><dt>Zonas sismogênicas</dt><dd data-chave="zonas">—</dd></div>
+    </dl>
+    <p id="resumo-status" role="status">Consultando dados…</p>
+  </div>
+</section>
+<section class="secao">
+  <h2>Fontes e atualização</h2>
+  <ul class="fontes" id="fontes"></ul>
+</section>
+{% endblock %}
+{% block scripts %}<script type="module" src="{{ url_for('static', filename='js/api.js') }}"></script>{% endblock %}
+

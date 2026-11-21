@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block titulo %}Barragens · Atlas de Barragens{% endblock %}
+{% block conteudo %}
+<section class="cabecalho"><div><p class="rotulo">Cadastro SIGBM</p><h1>Barragens de rejeitos</h1></div></section>
+<section class="painel">
+  <form class="linha-filtros" id="filtros-barragens">
+    <label>Nome<input name="nome" maxlength="120" placeholder="Buscar barragem"></label>
+    <label>Estado<select name="uf"><option value="">Todos</option>{% for uf in ufs %}<option>{{ uf }}</option>{% endfor %}</select></label>
+<label>Município<input name="municipio" maxlength="120" placeholder="Ex. Itabira"></label><button>Buscar</button>
+  </form>
+  <p id="barragens-status" role="status"></p>
+  <div class="rolagem"><table>
+    <thead><tr><th scope="col">Barragem</th><th scope="col">Município</th><th scope="col">UF</th><th scope="col">Categoria de risco</th><th scope="col">Dano potencial</th></tr></thead>
+    <tbody id="lista-barragens"></tbody>
+  </table></div>
+  <div class="acoes"><button class="secundario" id="anterior" disabled>Anterior</button><button class="secundario" id="proxima" disabled>Próxima</button></div>
+</section>
+<dialog id="detalhes"><h2 id="detalhes-titulo">Detalhes da barragem</h2><div id="detalhes-corpo"></div><form method="dialog"><button>Fechar</button></form></dialog>
+{% endblock %}
+{% block scripts %}<script type="module" src="{{ url_for('static', filename='js/filtros.js') }}"></script>{% endblock %}
+

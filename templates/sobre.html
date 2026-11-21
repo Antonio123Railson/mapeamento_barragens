@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block titulo %}Sobre · Atlas de Barragens{% endblock %}
+{% block conteudo %}
+<section class="cabecalho"><div><p class="rotulo">Metodologia e dados</p><h1>Sobre o projeto</h1></div></section>
+<div class="sobre">
+<article class="painel"><h2>Objetivo acadêmico</h2>
+<p>O Atlas de Barragens cruza o cadastro de barragens de rejeitos com registros sísmicos e polígonos de zonas sismogênicas quando há uma camada documentada.</p>
+<p>O resultado expressa proximidade espacial entre a barragem e epicentros conhecidos. O uso se limita à exploração acadêmica dos catálogos, cuja cobertura varia no espaço e no tempo.</p>
+<h2>Distância e período</h2>
+<p>O PostGIS calcula a distância epicentral em quilômetros sobre o elipsoide WGS 84. As datas da análise são inclusivas em UTC. A profundidade é apresentada separadamente.</p></article>
+<article class="painel"><h2>Fontes oficiais</h2>
+<ul class="fontes"><li><a href="https://sigbm.anm.gov.br/publico">ANM · SIGBM</a></li>
+<li><a href="https://earthquake.usgs.gov/fdsnws/event/1/">USGS · Earthquake Catalog</a></li>
+<li><a href="https://www.ibge.gov.br/geociencias/organizacao-do-territorio/malhas-territoriais.html">IBGE · Malhas territoriais</a></li>
+<li><a href="https://www.openstreetmap.org/copyright">OpenStreetMap · Mapa-base</a></li></ul>
+<h2>Zonas sismogênicas</h2>
+<p>A camada depende de polígonos com referência científica e metodologia explícitas. A publicação de <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11098838/">estimativas de ameaça sísmica no Nordeste</a> exemplifica a natureza regional e metodológica desses estudos.</p></article>
+</div>
+{% endblock %}
+

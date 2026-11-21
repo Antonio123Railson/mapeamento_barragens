@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>{% block titulo %}Atlas de Barragens{% endblock %}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/estilo.css') }}">
+{% block recursos %}{% endblock %}
+</head>
+<body>
+<a class="pular" href="#conteudo">Pular para o conteúdo</a>
+<header class="topo">
+  <div class="largura navega">
+    <a class="marca" href="/"><span class="marca-icone" aria-hidden="true">◈</span> Atlas de Barragens</a>
+    <nav aria-label="Navegação principal">
+    {% for caminho, nome in [('/', 'Início'), ('/mapa', 'Mapa'), ('/barragens', 'Barragens'), ('/analises', 'Análises'), ('/sobre', 'Sobre')] %}
+      <a href="{{ caminho }}"{% if request.path == caminho %} aria-current="page"{% endif %}>{{ nome }}</a>
+    {% endfor %}
+    </nav>
+  </div>
+</header>
+<main id="conteudo" class="largura">{% block conteudo %}{% endblock %}</main>
+<footer><div class="largura">Atlas de Barragens <span>·</span> Sistema nacional de mapeamento acadêmico</div></footer>
+{% block scripts %}{% endblock %}
+</body>
+</html>
+

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block titulo %}Análises · Atlas de Barragens{% endblock %}
+{% block recursos %}
+{% include "recursos_mapa.html" %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.9/dist/chart.umd.min.js"></script>
+{% endblock %}
+{% block conteudo %}
+<section class="cabecalho"><div><p class="rotulo">Consulta PostGIS</p><h1>Análise de proximidade</h1>
+<p>Consulte os epicentros do catálogo dentro de um raio de uma barragem.</p></div></section>
+<section class="painel">
+  <form class="linha-filtros" id="busca-analise">
+    <label>Nome da barragem<input name="nome" maxlength="120" placeholder="Buscar barragem"></label>
+    <label>Estado<select name="uf"><option value="">Todos</option>{% for uf in ufs %}<option>{{ uf }}</option>{% endfor %}</select></label>
+<label>Município<input name="municipio" maxlength="120" placeholder="Ex. Itabira"></label><button class="secundario">Buscar barragens</button>
+  </form>
+  <form class="linha-filtros" id="form-analise">
+    <label class="selecao">Barragem<select name="barragem_id" required><option value="">Escolha uma barragem</option></select></label>
+    <label>Raio (km)<input type="number" name="raio_km" min="0.01" max="1000" step="any" value="50" list="raios" required></label>
+    <datalist id="raios"><option value="10"><option value="25"><option value="50"><option value="100"></datalist>
+    <label>Magnitude mínima<input type="number" name="magnitude_minima" min="-10" max="12" step="any" placeholder="Todas"></label>
+    <label>Data inicial<input type="date" name="inicio"></label><label>Data final<input type="date" name="fim"></label><button>Analisar</button>
+  </form>
+  <p id="analise-status" role="status"></p>
+</section>
+<section id="resultado" class="secao" hidden>
+  <div class="cabecalho"><div><h2 id="resultado-titulo">Resultado</h2><p id="parametros"></p><p id="zonas-resultado"></p></div><button id="relatorio" class="secundario">Imprimir relatório</button></div>
+  <dl class="metricas" id="analise-metricas">
+    <div><dt>Eventos no raio</dt><dd id="total"></dd></div>
+    <div><dt>Epicentro mais próximo</dt><dd id="distancia"></dd></div>
+    <div><dt>Maior magnitude</dt><dd id="magnitude"></dd></div>
+  </dl>
+  <div class="grade-analise">
+    <article class="painel"><h3>Área analisada</h3><div id="mapa-analise" aria-label="Mapa da barragem e dos epicentros da página"></div></article>
+    <article class="painel"><h3>Eventos por ano</h3><canvas id="grafico" role="img" aria-describedby="serie-anual"></canvas><p id="serie-anual"></p></article>
+  </div>
+  <article class="painel">
+    <h3>Epicentros por distância</h3>
+    <div class="rolagem"><table>
+      <thead><tr><th scope="col">Evento</th><th scope="col">Data (UTC)</th><th scope="col">Magnitude</th><th scope="col">Profundidade</th><th scope="col">Distância</th><th scope="col">Fonte</th></tr></thead>
+      <tbody id="lista-eventos"></tbody>
+    </table></div>
+    <div class="acoes"><button id="eventos-anterior" class="secundario">Anterior</button><span id="eventos-pagina"></span><button id="eventos-proxima" class="secundario">Próxima</button></div>
+  </article>
+</section>
+{% endblock %}
+{% block scripts %}<script type="module" src="{{ url_for('static', filename='js/analises.js') }}"></script>{% endblock %}
+

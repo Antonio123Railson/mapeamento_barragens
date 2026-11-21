@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block titulo %}Mapa · Atlas de Barragens{% endblock %}
+{% block recursos %}{% include "recursos_mapa.html" %}{% endblock %}
+{% block conteudo %}
+<section class="cabecalho">
+  <div><p class="rotulo">Exploração geográfica</p><h1>Mapa interativo</h1></div>
+  <button type="button" class="secundario" id="restaurar">Restaurar visão nacional</button>
+</section>
+<div class="painel-mapa">
+  <aside class="painel">
+    <h2>Filtros</h2>
+    <form id="filtros-mapa">
+      <fieldset><legend>Barragens</legend><label>Estado<select name="uf"><option value="">Todos</option>{% for uf in ufs %}<option>{{ uf }}</option>{% endfor %}</select></label>
+<label>Município<input name="municipio" maxlength="120" placeholder="Ex. Itabira"></label></fieldset>
+      <fieldset><legend>Eventos sísmicos</legend>
+        <label>Magnitude mínima<input name="magnitude_minima" type="number" step="any" min="-10" max="12" placeholder="Todas"></label>
+        <label>Data inicial<input type="date" name="inicio"></label><label>Data final<input type="date" name="fim"></label>
+      </fieldset>
+      <button>Aplicar filtros</button>
+    </form>
+  </aside>
+  <section class="cartografia" aria-label="Mapa nacional">
+    <div class="legenda">
+      <label><input data-camada="barragens" type="checkbox" checked><i class="simbolo barragem"></i> Barragens</label>
+      <label><input data-camada="sismos" type="checkbox" checked><i class="simbolo sismo"></i> Epicentros</label>
+      <label><input data-camada="zonas" type="checkbox" checked><i class="simbolo zona"></i> Zonas sismogênicas</label>
+    </div>
+    <div id="mapa" aria-label="Mapa do Brasil"></div>
+    <div class="mapa-status"><p id="mapa-status" role="status">Carregando mapa…</p><p id="zonas-status" role="status"></p></div>
+  </section>
+</div>
+{% endblock %}
+{% block scripts %}<script type="module" src="{{ url_for('static', filename='js/mapa.js') }}"></script>{% endblock %}
+
